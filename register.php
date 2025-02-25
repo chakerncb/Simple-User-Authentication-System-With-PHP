@@ -32,13 +32,13 @@
 
                             <form class="user" method="post" action="auth/register.php">
                                 <div class="mb-3"><input class="form-control form-control-user" type="text"
-                                        id="exampleFirstName" aria-describedby="emailHelp" placeholder="Full Name"
-                                        name="Fname"></div>
+                                        aria-describedby="emailHelp" placeholder="Full Name" name="Fname"></div>
                                 <div class="mb-3"><input class="form-control form-control-user" type="email"
-                                        id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address"
-                                        name="email"></div>
+                                        aria-describedby="emailHelp" placeholder="Email Address" name="email"></div>
                                 <div class="mb-3"><input class="form-control form-control-user" type="password"
-                                        id="exampleInputPassword" placeholder="Password" name="password"></div>
+                                        id="password" placeholder="Password" name="password"></div>
+                                <div class="mb-3"><input class="form-control form-control-user" type="password"
+                                        id="confirm_pass" placeholder="Confirm Password" name="confirm_pass"></div>
                         </div>
                         <button class="btn btn-primary d-block btn-user w-100" type="submit">Register
                             Account
@@ -58,6 +58,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>
+    <script>
+        let password = document.getElementById("password");
+        let confirm_pass = document.getElementById("confirm_pass");
+
+        document.getElementById("confirm_pass").addEventListener('change', function () {
+            if (password.value != confirm_pass.value) {
+                confirm_pass.style.borderColor = 'red';
+            } else {
+                confirm_pass.style.borderColor = 'green';
+            }
+        });
+    </script>
 </body>
 
 </html>

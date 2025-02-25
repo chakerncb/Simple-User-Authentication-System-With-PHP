@@ -4,9 +4,31 @@ require_once('../config/db.php');
 $user = [
     'Fname' => $_POST['Fname'],
     'email' => $_POST['email'],
-    'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+    'password' => $_POST['password'],
+    'confirm_pass' => $_POST['confirm_pass'],
+    'hash_password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
 ];
 
+if (empty($user['Fname']) || empty($user['email']) || empty($user['password'])) {
+    session_start();
+    $_SESSION['alert_danger'] = "All fields are required";
+    header('Location: ../register.php');
+    exit();
+}
+
+if ($user['password'] != $user['confirm_pass']) {
+    session_start();
+    $_SESSION['alert_danger'] = "Passwords do not match";
+    header('Location: ../register.php');
+    exit();
+}
+
+if (strlen($user['password']) < 8) {
+    session_start();
+    $_SESSION['alert_danger'] = "Password must be at least 8 characters";
+    header('Location: ../register.php');
+    exit();
+}
 
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
@@ -28,7 +50,7 @@ if ($result->num_rows > 0) {
     }
 }
 
-$sql = "INSERT INTO users (Fname, email, password) VALUES ('{$user['Fname']}', '{$user['email']}', '{$user['password']}')";
+$sql = "INSERT INTO users (Fname, email, password) VALUES ('{$user['Fname']}', '{$user['email']}', '{$user['hash_password']}')";
 
 if ($conn->query($sql) === TRUE) {
     $_SESSION['alert_success'] = "Account created successfully !";
